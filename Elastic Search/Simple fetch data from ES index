@@ -1,0 +1,15 @@
+**
+	 * Fetch data from ES index  
+	 * @return JSONObject data
+	 */
+	public JSONObject fetchFromEs() {
+		JSONObject jsonObject=new JSONObject();
+		try {
+			GetResponse getResponse = this.client
+					.prepareGet("nameOfIndex", "nameOfType","documentId").get();
+			jsonObject=new JSONObject(getResponse.getSourceAsString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jsonObject;
+	}
