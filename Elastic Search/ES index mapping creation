@@ -1,0 +1,38 @@
+/**
+	 * Method for creating index mapping in ES
+	 * @return boolean return true if mapping created successfully
+	 */
+	public boolean createMapping() {
+		boolean mappingFlag = false;
+		try {
+			XContentBuilder configBuilder = jsonBuilder()
+					.startObject()
+					.field("dynamic",false)
+					.field(properties)
+					.startObject()
+					.field("nameOffiled-1").startObject().field("type", "keyword").endObject()
+					.field("nameOffiled-2").startObject().field("type", "keyword").endObject()
+					.field("nameOffiled-3").startObject().field("type", "keyword").endObject()
+					.field("nameOffiled-4").startObject().field("type", "keyword").endObject()
+					.endObject()
+					.endObject();
+
+			boolean respFlag = this.client.admin().indices().prepareExists("nameOfIndex").get()
+					.isExists();
+			if (respFlag) {
+				respFlag = client.admin().indices().prepareTypesExists("nameOfIndex")
+						.setTypes("nameOfIndexType").get().isExists();
+				if (!respFlag) {
+					PutMappingResponse resp = client.admin().indices()
+							.preparePutMapping("nameOfIndex")
+							.setType("nameOfIndexType").setSource(configBuilder).get();
+				} else {
+					System.out.println("Mapping is aleady exist.");
+				}
+				mappingFlag = true;
+			} 
+		} catch (Exception e) {
+			e.printSatckTrace();
+		}
+		return mappingFlag;
+	}
