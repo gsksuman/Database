@@ -1,1 +1,57 @@
-Elas
+
+/**
+	 * Used to create ES connection
+	 * @param clusterName eg. test_cluster
+	 * @param xpackUserName eg. elastic
+	 * @param xpackPassword eg. changeme
+	 * @param esNodesAddress address of nodes eg. [ip:port],[ip:port]
+	 * @return boolean the status of ES connection
+	 * @throws NumberFormatException
+	 * @throws UnknownHostException
+	 */
+	private boolean createConnection(String clusterName, String xpackUserName,
+			String xpackPassword, Map<String, String> esNodesAddress)
+					throws UnknownHostException {
+		boolean isConnected = false;
+		Settings settings = Settings
+				.builder()
+				.put(RtJioNFVIMESConstants.ES_CLUSTER_NAME, clusterName)
+				.put(RtJioNFVIMESConstants.ES_XPACK_USER_CREDENTIAL,
+						xpackUserName + ":" + xpackPassword).build();
+
+		InetSocketTransportAddress[] transportAddresses = new InetSocketTransportAddress[esNodesAddress
+		                                                                                 .size()];
+		int addressPosition = 0;
+
+		for (Map.Entry<String, String> ipPort : esNodesAddress.entrySet()) {
+
+			transportAddresses[addressPosition] = new InetSocketTransportAddress(
+					InetAddress.getByName(ipPort.getKey()),
+					Integer.parseInt(ipPort.getValue()));
+			addressPosition++;
+		}
+		this.client = new PreBuiltXPackTransportClient(settings);
+		this.client.addTransportAddresses(transportAddresses);
+
+		if (this.client != null) {
+			isConnected = this.client.connectedNodes().isEmpty() ? false : true;
+		}
+    
+		if(isConnected){
+			this.esDbConnected = true;
+		}else{
+			this.esDbConnected = false;
+		}
+		return isConnected;
+	}
+  
+  //Example to get node address
+ 
+  private Map<String, String> nodeIpPorts(String address) {
+		Map<String, String> ipPorts = new HashMap<>();
+		String[] addresses = address.split(",");
+		for (String ipPort : addresses) {
+			ipPorts.putAll(this.splitIpPort(ipPort));
+		}
+		return ipPorts;
+	}
