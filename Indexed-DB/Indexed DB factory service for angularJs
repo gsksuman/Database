@@ -1,0 +1,51 @@
+(function () {
+	'use strict';
+
+	angular
+	.module('App')
+	.factory('IndexedDBService', IndexedDBService);
+
+	IndexedDBService.$inject = ['$q'];
+	function IndexedDBService($q) {
+		var service = {};
+		service.saveData=saveData;
+		service.readData=readData;
+		service.updateData=updateData;
+		service.deleteData=deleteData;
+		
+		return service;
+
+		function saveData(data,tableName){
+			IndexDBManager.save(data, tableName, function() {
+				console.info('Data saved');
+			}, function() {
+				console.warn('Data not saved');
+			});
+		}
+		function readData(key,tableName){
+			var deferred = $q.defer();
+			IndexDBManager.read(key, tableName, function(outputData) {
+				deferred.resolve({ success:true, AppData:outputData });
+				console.info('Able to read data');
+			}, function() {
+				deferred.resolve({ success:false });
+				console.warn('Unable to read data');
+			});
+			return deferred.promise;
+		}
+		function updateData(key,newName,tableName){
+			IndexDBManager.update(key, { name: newName }, tableName, function() {
+				console.info('Data updated');
+			}, function() {
+				console.warn('Data not updated');
+			});
+		}
+		function deleteData(key,tableName){
+			IndexDBManager.deleteData(key, tableName, function() {
+				console.info('Data deleted');
+			}, function() {
+				console.warn('Data not deleted');
+			});
+		}
+	}
+})();
