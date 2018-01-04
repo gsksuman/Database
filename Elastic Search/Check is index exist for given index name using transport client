@@ -1,0 +1,16 @@
+   /**
+	 * This method is used to check is index exist for given index name
+	 * @param indexName the name of ES index
+	 * @return boolean return true if given index is already exists
+	 */
+	public boolean isIndexExist(String indexName) {
+		boolean isExist = false;
+		try {
+      //TransportClient client is initialised at the time of connection creation
+			isExist = this.client.admin().indices().prepareExists(indexName)
+					.get().isExists();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isExist;
+	}
