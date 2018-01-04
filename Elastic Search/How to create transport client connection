@@ -4,7 +4,7 @@
 	 * @param clusterName eg. test_cluster
 	 * @param xpackUserName eg. elastic
 	 * @param xpackPassword eg. changeme
-	 * @param esNodesAddress address of nodes eg. [ip:port],[ip:port]
+	 * @param esNodesAddress address of nodes 
 	 * @return boolean the status of ES connection
 	 * @throws NumberFormatException
 	 * @throws UnknownHostException
@@ -46,7 +46,7 @@
 	}
   
   //Example to get node address
- 
+  //eg. [ip:port],[ip:port]
   private Map<String, String> nodeIpPorts(String address) {
 		Map<String, String> ipPorts = new HashMap<>();
 		String[] addresses = address.split(",");
