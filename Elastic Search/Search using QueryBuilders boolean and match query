@@ -1,0 +1,17 @@
+public void searchData(){
+int DOC_COUNT=10000;
+SearchResponse queryRespPolicyAction = this.client
+						.prepareSearch("nameOfIndex")
+						.setTypes("nameOfType")
+						.setQuery(QueryBuilders.boolQuery()
+								.must(QueryBuilders.matchQuery("FieldName", "FiledValue")))
+						.setSize(DOC_COUNT).get();
+ if(queryRespPolicyAction.getHits().getHits().length>0){
+  for (int i = 0; i < queryRespPolicyAction.getHits().getHits().length; i++) {
+   JSONObject resourceInfo = new JSONObject(queryRespPolicyAction.getHits().getAt(i).getSourceAsString());
+   System.out.println("Data found >>"+resourceInfo.toString(4)); 
+  }
+ }else{
+  System.out.println("Data not found");
+ }          
+}            
