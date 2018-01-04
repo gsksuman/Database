@@ -1,0 +1,6 @@
+DeleteByQueryRequestBuilder deletQueryResp = DeleteByQueryAction.INSTANCE
+							.newRequestBuilder(this.client);
+					deletQueryResp.source().setIndices("nameOfIndex")
+					.setTypes("nameOfIndexType");
+BulkIndexByScrollResponse resp = deletQueryResp.filter(QueryBuilders.boolQuery()
+							.must(QueryBuilders.matchQuery("fieldName", "fieldValue"))).get();
