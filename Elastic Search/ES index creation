@@ -1,0 +1,25 @@
+   /**
+	 * This method is used to create ES index
+	 * @param indexName the name of ES index
+	 * @param type the name of type in ES index
+	 * @return boolean return true if given index created successfully
+	 */
+   
+	public boolean createIndex(String indexName) {
+		boolean flag = false;
+    String INDEX_DOC_LIMIT = "index.max_result_window";
+    long INDEX_DOC_LIMIT_VALUE = Integer.MAX_VALUE;
+		try {
+			flag = this.client
+					.admin()
+					.indices()
+					.prepareCreate(indexName)
+					.setSettings(Settings.builder().put(INDEX_DOC_LIMIT,
+									INDEX_DOC_LIMIT_VALUE)).get()
+					.isAcknowledged();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
