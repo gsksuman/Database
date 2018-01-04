@@ -1,0 +1,17 @@
+/**
+	 * Insert data in ES index  
+	 * @return boolean return true if data inserted successfully in ES
+	 */
+	public boolean insertDataInToES() {
+		boolean flag = false;
+		JSONObject source = new JSONObject(); //This is the data in JSON format
+		try {
+			this.client.prepareIndex().setIndex("nameOfIndex")
+			.setType("nameOfType").setId("documentId").setSource(source.toString()).get();
+      //documentId is optional If not given a auto generated ID is created for every document
+			flag=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
