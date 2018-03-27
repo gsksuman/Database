@@ -1,0 +1,36 @@
+
+	public int updateEsDateByMatchQueryUsingScript() {
+		try {
+			System.out.println("------------------Update by match query---------------------------------");
+
+			BoolQueryBuilder query = QueryBuilders.boolQuery()
+					.must(QueryBuilders.matchQuery("matchField1", "value1"));
+
+				query.must(QueryBuilders.matchQuery("matchField2", "value2"));
+				query.should(QueryBuilders.matchQuery("matchField3", "value3"));
+				query.must(QueryBuilders.matchQuery("matchField4", "value4"));
+				query.should(QueryBuilders.matchQuery("matchField5", "value5"));
+
+			//Name value pair to update field	
+			String scriptString = "ctx._source." + "filed1" + " = " + "'value1';"
+					 +"ctx._source." + "filed2" + " = " + "'value2';"
+					 +"ctx._source." + "filed3" + " = " + "'value3';";
+					 
+			Script script = new Script(scriptString);
+
+			UpdateByQueryRequestBuilder ubqrb = UpdateByQueryAction.INSTANCE
+					.newRequestBuilder(this.getClient());
+
+			ubqrb.source().setIndices("IndexName")
+					.setTypes("TypeName");
+
+			BulkIndexByScrollResponse res = ubqrb.script(script).filter(query).get();
+
+			if (res.getUpdated() > 0) {
+				this.getClient().admin().indices()
+						.prepareRefresh("IndexName").get();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
