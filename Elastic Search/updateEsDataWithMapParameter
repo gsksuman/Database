@@ -1,0 +1,41 @@
+public void updateEsDataWithMapParameter() {
+		try {
+			SearchResponse response = this.getClient()
+					.prepareSearch("IndexName")
+					.setTypes("TypeName")
+					.setQuery(QueryBuilders.boolQuery()
+							.must(QueryBuilders.matchQuery("matchField1", "matchValue1")).must(QueryBuilders
+									.matchQuery("matchField2", "matchValue2"))).get();
+
+			if (response.getHits().totalHits() != 0) {
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("updateField1", "updateValue1");
+				map.put("updateField2", "updateValue2");
+				map.put("updateField3", "updateValue3");
+				map.put("updateField4", "updateValue4");
+				map.put("updateField5", "updateValue5");
+				map.put("updateField6", "updateValue6");
+				map.put("updateField7", "updateValue7");
+				map.put("updateField8", "updateValue8");
+				map.put("updateField9", "updateValue9");
+
+				//To get document id after search response.getHits().getAt(0).getId()
+				UpdateResponse resp = RTJioEsBootStrapManager.getInstance().getClient()
+						.prepareUpdate("IndexName","TypeName",
+								response.getHits().getAt(0).getId())
+						.setDoc(map).get();
+
+				if (String.valueOf(resp.getResult()).equals("UPDATED")) {
+					this.getClient().admin().indices()
+							.prepareRefresh("IndexName").get();
+		          //updation success 
+				} else if (String.valueOf(resp.getResult()).equals(RTJioEsParameterConstants.NOOP)) {
+					//updation failed
+				}
+			} else {
+				//updation failed
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
