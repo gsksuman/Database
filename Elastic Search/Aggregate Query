@@ -1,0 +1,32 @@
+public JSONObject getAggregatedValue(String index, String type, String matchFiledValue1,String matchFiledValue2) {
+		try {
+			SearchResponse searchResponse = this.getClient().prepareSearch(index)
+					.setTypes(type)
+					.setQuery(QueryBuilders.boolQuery()
+							.must(QueryBuilders.matchQuery("matchField1", matchFiledValue1))
+							.must(QueryBuilders.existsQuery("matchField2",matchFiledValue2))
+					).addAggregation(AggregationBuilders.terms("termFiled").field("filedName").subAggregation(AggregationBuilders.sum("aggValue").field("THRESHOLD_VALUE"))
+
+					).get();
+
+			System.out.println(" Search Response !!!!!!!!!!!!! " + searchResponse);
+
+			Terms resourceBucket = searchResponse.getAggregations().get("termFiled");
+			Iterator<Bucket> bucketItr = resourceBucket.getBuckets().iterator();
+			while (bucketItr.hasNext()) {
+				JSONObject resourceObj = new JSONObject();
+
+				Bucket indata = bucketItr.next();
+				JSONObject ruleData;
+				ruleData = new JSONObject(indata.getAggregations().getAsMap().get("aggValue"));
+				resourceObj.put("RESOURCE_NAME", indata.getKey());
+				resourceObj.put("VALUE", ruleData.getInt("value"));
+
+				resourceArray.put(resourceObj);
+			}
+			System.out.println(" vnf object  >>>>>>>>>>>>>>>" + vnfdata);
+		}catch (JSONException e) {
+		  e.printStacktrace();
+		}
+		return vnfdata;
+	}
