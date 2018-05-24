@@ -1,1 +1,6 @@
-how to create connection
+how to create connection with cassabdra server using java hactor client:
+Following steps need to be performed,
+1) create a cassandra.properties 
+2) load cassandra.properties at startup at application startup
+2) initialise hactor client with cassandra.properties file settings  
+3) perform CRUD operation with hactor client
