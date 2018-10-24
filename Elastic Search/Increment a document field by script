@@ -1,0 +1,16 @@
+public String incrementFieldUsingScript(String indexName,String typeName,String documentId,String fieldName) {
+    	String updateStatus = null;
+    	try {
+    		Map<String, Object> queryMap=new HashMap<>();
+    		Script script = new Script(ScriptType.INLINE, "painless", "ctx._source['"+fieldName+"']+=1",queryMap);
+    		
+    		UpdateResponse updateResponse=this.client().prepareUpdate(indexName, typeName, documentId)
+            .setScript(script).setRefreshPolicy(RefreshPolicy.IMMEDIATE)
+            .get();
+               
+    		updateStatus=updateResponse.getResult().toString();    
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return updateStatus;
+	}
