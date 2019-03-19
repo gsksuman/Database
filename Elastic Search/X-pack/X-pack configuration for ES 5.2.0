@@ -1,0 +1,22 @@
+Elastic search X-pack configuration required following things,
+
+1) Elastic search package : elasticsearch-5.2.0
+2) Kibana package : kibana-5.2.0-linux-x86_64
+3) X-Pack package : x-pack-5.2.0
+       This package contains below files and packages
+        a) elasticsearch
+           - bin folder
+           - config folder
+           - Jars Dependecies 
+        b) kibana
+           - x-pack folder
+        c) logstash
+           - dependencies folder
+           - x-pack-5.2.0-java.gem file
+        Using thease folders we can configure and run x-pack with elastic search, kibana and logstach
+Steps to configure x-pack
+
+1) Elastic search settings
+ a) Create elasticsearch-5.2.0\bin
+
+        
