@@ -16,7 +16,28 @@ Elastic search X-pack configuration required following things,
         Using thease folders we can configure and run x-pack with elastic search, kibana and logstach
 Steps to configure x-pack
 
-1) Elastic search settings
- a) Create elasticsearch-5.2.0\bin
+1) Elastic x-pack search settings
+ a) Create "x-pack" folder in elasticsearch-5.2.0\bin and copy all files from "x-pack-5.2.0\elasticsearch\bin" 
+    and past in "elasticsearch-5.2.0\bin\x-pack"
+ b) Create "x-pack" folder in elasticsearch-5.2.0\config and copy all files from "x-pack-5.2.0\elasticsearch\config" 
+    and past in "elasticsearch-5.2.0\config\x-pack"   
+ c) Create "x-pack" folder in elasticsearch-5.2.0\plugins and copy all files(Jars Dependecies) from "x-pack-5.2.0\elasticsearch\"
+    and past "elasticsearch-5.2.0\plugins\x-pack"    
+ d) Open elasticsearch-5.2.0\config\elasticsearch.yml file and add following parameter for X-PACK
+    xpack.security.enabled: true
+
+2) Kibana x-pack settings
+ a) Create "x-pack" folder in kibana-5.2.0-linux-x86_64\plugins and copy all files from "x-pack-5.2.0\kibana\x-pack"
+    and past "kibana-5.2.0-linux-x86_64\plugins\x-pack"
+ b) Open kibana-5.2.0-linux-x86_64\config\kibana.yml file and add following parameter for X-PACK
+    elasticsearch.username: "elastic"
+    elasticsearch.password: "changeme"
+    xpack.security.enabled: true
+    
+Now we can run elastic search and kibana, When we open kibana it will ask for username and password
+    
+    
+ 
+ 
 
         
