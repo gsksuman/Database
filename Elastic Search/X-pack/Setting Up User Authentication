@@ -1,0 +1,58 @@
+1) Built-in Users
+  X-Pack security provides built-in user credentials to help you get up and running. These users have a fixed set of 
+  privileges and the default password "changeme". 
+  
+  Please read Reset Built-in User Passwordsand Disable Default Password Functionality below.
+  A) X-Pack security Built-in Users
+     a) elastic : A built-in superuser. See Built-in Roles.
+     b) kibana : The user Kibana uses to connect and communicate with Elasticsearch.
+     c) logstash_system	: The user Logstash uses when storing monitoring information in Elasticsearch.
+
+2) How the Built-in Users Work
+ These built-in users are stored within a special .security index managed by X-Pack security. This means that, if the password 
+ is changed, or a user is disabled, then that change is automatically reflected on each node in the cluster. It also means that 
+ if your.security index is deleted, or restored from a snapshot, then any changes you have applied will be lost.
+ Although they share the same API, the built-in users are separate and distinct from users managed by the native realm. 
+ Disabling the native realm will not have any effect on the built-in users. The built-in users can be disabled individually, 
+ using the user management api.
+
+3) Reset Built-in User Passwords
+ You must reset the default passwords for all built-in users, and then disable default password support. You can update 
+ passwords from the Management > Users UI in Kibana or with the Reset Password API:
+ A) PUT _xpack/security/user/elastic/_password
+    {
+      "password": "elasticpassword"
+    }
+ B) PUT _xpack/security/user/kibana/_password
+    {
+      "password": "kibanapassword"
+    }
+ C) PUT _xpack/security/user/logstash_system/_password
+   {
+     "password": "logstashpassword"
+   }
+   
+  Once the kibana user password is reset, you need to update the Kibana server with the new password by setting elasticsearch.
+  password in the kibana.yml configuration file:
+      elasticsearch.password: kibanapassword
+      
+  The logstash_system user is used internally within Logstash when monitoring is enabled for logstash
+  If you wish to enable this feature in Logstash, then you need to update the Logstash configuration with the new 
+  password by setting xpack.monitoring.elasticsearch.password in the logstash.yml configuration file:
+      xpack.monitoring.elasticsearch.password: logstashpassword
+
+  If you have upgraded from an older version of elasticsearch/x-pack, the logstash_system user may have defaulted to disabled 
+  for security reasons. Once the password has been changed, you can enable the user via the following API call:
+    PUT _xpack/security/user/logstash_system/_enable
+    Disable Default Password Functionality
+ 
+The default password of changeme is provided as a convenience that allows you to quickly setup your Elasticsearch stack. 
+It should not be used when running in production.Once you have changed the password for the built-in users, you should 
+disable default password support by setting "xpack.security.authc.accept_default_password" to "false".
+
+Future releases will require that default passwords are disabled in production mode.
+Internal Users
+X-Pack security has two internal users (_system and _xpack) that are responsible for the operations that take place inside 
+an Elasticsearch cluster.These users are only used by requests that originate from within the cluster. For this reason, they 
+cannot be used to authenticate against the API, and there is no password to manage or reset.
+From time-to-time you may find a reference to one of these users inside your logs, including audit logs
