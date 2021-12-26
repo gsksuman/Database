@@ -1,0 +1,132 @@
+/*
+SQLyog v10.2 
+MySQL - 5.6.42-log : Database - cms
+*********************************************************************
+*/
+
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`cms` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `cms`;
+
+/*Table structure for table `complaintremark` */
+
+DROP TABLE IF EXISTS `complaintremark`;
+
+CREATE TABLE `complaintremark` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `complaintNumber` int(11) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `remark` mediumtext,
+  `remarkDate` varchar(100) DEFAULT NULL,
+  `feedback` varchar(20) DEFAULT NULL,
+  `reference` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+/*Data for the table `complaintremark` */
+
+insert  into `complaintremark`(`id`,`complaintNumber`,`status`,`remark`,`remarkDate`,`feedback`,`reference`) values (1,2,'closed','suman','24 Dec 2021 23:36:37','yes','XQPtoq03'),(2,9,'in process','hiiiiiiiiiiiiiiiiiiii','2017-04-02 00:07:59',NULL,NULL),(3,3,'in process','test','2017-05-02 21:27:43',NULL,NULL),(4,19,'closed','case solved','2017-06-11 16:48:33',NULL,NULL),(5,1,'closed','This sample text for testing','2018-09-05 22:38:26',NULL,NULL),(6,5,'in process','test Data','2019-06-24 12:56:17',NULL,NULL),(7,23,'in process','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.','2019-06-24 16:04:47',NULL,NULL),(8,23,'closed','Issue resolved ','2019-06-24 16:07:08',NULL,NULL);
+
+/*Table structure for table `subcategory` */
+
+DROP TABLE IF EXISTS `subcategory`;
+
+CREATE TABLE `subcategory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `categoryid` int(11) DEFAULT NULL,
+  `subcategory` varchar(255) DEFAULT NULL,
+  `creationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+/*Data for the table `subcategory` */
+
+insert  into `subcategory`(`id`,`categoryid`,`subcategory`,`creationDate`,`updationDate`) values (1,1,'Online Shopping','2017-03-28 12:41:07','0000-00-00 00:00:00'),(2,1,'E-wllaet','2017-03-28 12:41:20','0000-00-00 00:00:00'),(3,2,'other','2019-06-24 12:36:44','2019-06-24 12:51:38');
+
+/*Table structure for table `tblcomplaints` */
+
+DROP TABLE IF EXISTS `tblcomplaints`;
+
+CREATE TABLE `tblcomplaints` (
+  `complaintNumber` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `service` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `pin` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
+  `userEmail` varchar(200) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `regtime` varchar(50) DEFAULT NULL,
+  `district` varchar(255) DEFAULT NULL,
+  `reference` varchar(200) DEFAULT NULL,
+  `userContact` varchar(50) DEFAULT NULL,
+  `description` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`complaintNumber`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `tblcomplaints` */
+
+insert  into `tblcomplaints`(`complaintNumber`,`userId`,`category`,`service`,`name`,`state`,`address`,`pin`,`gender`,`userEmail`,`status`,`regtime`,`district`,`reference`,`userContact`,`description`) values (1,2,'Rural_Connectivity_RC_PMGSY','Default','Suman Singh Kanwar','Chhattisgarh','Ashirwad Building Adarsh Nagar Podibahar','495677','Male','ssksumangsk@gmail.com','closed','23 Dec 2021 22:11:08','BALRAMPUR','XQPtoq03','5454545','dfdfdfdfd');
+
+/*Table structure for table `userlog` */
+
+DROP TABLE IF EXISTS `userlog`;
+
+CREATE TABLE `userlog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `userip` binary(16) NOT NULL,
+  `loginTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `logout` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+
+/*Data for the table `userlog` */
+
+insert  into `userlog`(`id`,`uid`,`username`,`userip`,`loginTime`,`logout`,`status`) values (1,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-28 22:34:36','',1),(2,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-29 20:32:26','',1),(3,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-30 20:28:00','',1),(4,0,'dsad','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-31 23:09:07','',0),(5,0,'dwerwer','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-31 23:11:22','',0),(6,0,'ffert','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-31 23:11:29','',0),(7,0,'ewrwe','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-31 23:12:12','',0),(8,0,'ewrwe','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-31 23:17:51','',0),(9,0,'ewrwe','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-31 23:17:54','',0),(10,0,'fsdfsdff','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-31 23:18:11','',0),(11,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-03-31 23:19:25','',1),(12,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-04-02 00:22:35','02-04-2017 12:24:41 AM',1),(13,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-04-02 00:28:09','02-04-2017 12:50:42 AM',1),(14,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-04-02 01:08:15','02-04-2017 01:08:19 AM',1),(15,0,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-04-03 00:20:20','',0),(16,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-04-03 00:20:28','03-04-2017 12:26:50 AM',1),(17,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-05-02 23:31:26','',1),(18,0,'test@gm.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-06-11 16:18:50','',0),(19,5,'abc@abc.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-06-11 16:26:30','11-06-2017 04:39:15 PM',1),(20,6,'xyz@xyz.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-06-11 16:43:28','11-06-2017 04:45:46 PM',1),(21,6,'xyz@xyz.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2017-06-11 16:49:45','11-06-2017 04:50:02 PM',1),(22,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2018-05-24 23:56:07','',1),(23,0,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2018-09-05 22:35:22','',0),(24,0,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2018-09-05 22:35:32','',0),(25,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2018-09-05 22:37:12','',1),(26,1,'anuj.lpu1@gmail.com','::1\0\0\0\0\0\0\0\0\0\0\0\0\0','2019-06-24 15:57:30','24-06-2019 04:11:08 PM',1);
+
+/*Table structure for table `users` */
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fullName` varchar(255) DEFAULT NULL,
+  `userEmail` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `contactNo` bigint(11) DEFAULT NULL,
+  `address` tinytext,
+  `State` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `pincode` int(6) DEFAULT NULL,
+  `userImage` varchar(255) DEFAULT NULL,
+  `regDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updationDate` timestamp NULL DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `username` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `users` */
+
+insert  into `users`(`id`,`fullName`,`userEmail`,`password`,`contactNo`,`address`,`State`,`country`,`pincode`,`userImage`,`regDate`,`updationDate`,`status`,`username`) values (1,'suman singh','sumansingh@gmail.com','suman',9999857860,'Shakarpur','Uttar Pradesh','India',110092,'6e8024ec26c292f258ec30f01e0392dc.png','2017-03-28 17:14:52','2019-06-24 16:09:44',1,'admin');
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
